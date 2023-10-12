@@ -1,2 +1,2 @@
 # FastAPIStockScreener
-fastApi tutaorial from hackingthemarkets
+fastApi tutorial from hackingthemarkets

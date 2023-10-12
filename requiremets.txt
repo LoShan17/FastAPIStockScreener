@@ -1,0 +1,6 @@
+pandas
+fastapi
+jinja2
+uvicorn
+yfinance
+sqlalchemy
