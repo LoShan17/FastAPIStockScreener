@@ -13,19 +13,14 @@ def home(request: Request):
     """
     Returns data to create the homapage Dashboard
     """
-    return templates.TemplateResponse(name="home.html", context={
-        "request": request,
-        "somevar": 2
-    })
+    return templates.TemplateResponse(
+        name="home.html", context={"request": request, "somevar": 10}
+    )
+
 
 @app.post("/stock")
 def create_stock():
     """
     Creates a stock symbol and saves it to the database
     """
-    return {
-        "code": "success",
-        "message": "stock created"
-    }
-
-
+    return {"code": "success", "message": "stock created"}
