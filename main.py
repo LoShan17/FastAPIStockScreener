@@ -13,9 +13,7 @@ def home(request: Request):
     """
     Returns data to create the homapage Dashboard
     """
-    return templates.TemplateResponse(
-        name="home.html", context={"request": request, "somevar": 10}
-    )
+    return templates.TemplateResponse(name="home.html", context={"request": request})
 
 
 @app.post("/stock")
