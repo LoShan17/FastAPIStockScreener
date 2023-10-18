@@ -2,8 +2,11 @@ from typing import Union
 
 from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
+import models
+from database import engine, SessionLocal
 
 templates = Jinja2Templates(directory="templates")
+models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
