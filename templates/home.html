@@ -29,25 +29,27 @@ $(document).ready(function() {
 });
 </script>
 
-<div class="ui input">
-    <input type="text" placeholder="P/E Ratio...">
-</div>
+<form>
+  <div class="ui input">
+      <input name="forward_pe" type="text" placeholder="P/E Ratio..." value="{{forward_pe or ''}}">
+  </div>
 
-<div class="ui input">
-    <input type="text" placeholder="Dividend Yield...">
-</div>
+  <div class="ui input">
+      <input name="dividend_yield" type="text" placeholder="Dividend Yield..." value="{{dividend_yield or ''}}">
+  </div>
 
-<div class="ui checkbox">
-    <input type="checkbox" name="example">
-    <label>Above 50 days MA</label>
-</div>
+  <div class="ui checkbox">
+      <input name="ma50" type="checkbox" name="example" {%if ma50%}checked="checked"{%endif%}>
+      <label>Above 50 days MA</label>
+  </div>
 
-<div class="ui checkbox">
-    <input type="checkbox" name="example">
-    <label>Above 200 days MA</label>
-</div>
+  <div class="ui checkbox">
+      <input name="ma200" type="checkbox" name="example" {%if ma200%}checked="checked"{%endif%}>
+      <label>Above 200 days MA</label>
+  </div>
 
-<button class="ui button primary">Filter</button>
+  <button type="submit" class="ui button primary">Filter</button>
+</form>
 
 <button id="add_stocks" class="ui button">
   Add Stocks
@@ -56,25 +58,25 @@ $(document).ready(function() {
 <table class="ui celled table">
     <thead>
       <tr><th>Symbol</th>
-      <th>P/E</th>
+      <th>Price</th>
+      <th>forward P/E</th>
+      <th>forward EPS</th>
       <th>Dividend Yield</th>
+      <th>MA 50 days</th>
+      <th>MA 200 days</th>
     </tr></thead>
     <tbody>
+      {% for stock in stocks%}
       <tr>
-        <td data-label="Name">MSFT</td>
-        <td data-label="Age">10</td>
-        <td data-label="Job">2</td>
+        <td>{{stock.symbol}}</td>
+        <td>{{stock.price}}</td>
+        <td>{{stock.forward_pe}}</td>
+        <td>{{stock.forward_eps}}</td>
+        <td>{{stock.dividend_yield}}</td>
+        <td>{{stock.ma50}}</td>
+        <td>{{stock.ma200}}</td>
       </tr>
-      <tr>
-        <td data-label="Name">AAPL</td>
-        <td data-label="Age">26</td>
-        <td data-label="Job">3</td>
-      </tr>
-      <tr>
-        <td data-label="Name">META</td>
-        <td data-label="Age">24</td>
-        <td data-label="Job">0</td>
-      </tr>
+      {% endfor %}
     </tbody>
 </table>
 

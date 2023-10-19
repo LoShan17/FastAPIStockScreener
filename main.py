@@ -55,11 +55,45 @@ def fetch_stock_data(id: int):
 
 
 @app.get("/")
-def home(request: Request):
+def home(
+    request: Request,
+    forward_pe=None,
+    dividend_yield=None,
+    ma50=None,
+    ma200=None,
+    db: Session = Depends(get_db),
+):
     """
     Returns data to create the homapage Dashboard
     """
-    return templates.TemplateResponse(name="home.html", context={"request": request})
+    # this is not necessary because db: Session = Depends(get_db)
+    # db = SessionLocal()
+
+    stocks = db.query(Stock)
+    if forward_pe:
+        stocks = stocks.filter(Stock.forward_pe < forward_pe)
+
+    if dividend_yield:
+        stocks = stocks.filter(Stock.dividend_yield > dividend_yield)
+
+    if ma50:
+        stocks = stocks.filter(Stock.price > Stock.ma50)
+
+    if ma200:
+        stocks = stocks.filter(Stock.price > Stock.ma200)
+
+    logging.info(msg=f"db returned stocks: {stocks}")
+    return templates.TemplateResponse(
+        name="home.html",
+        context={
+            "request": request,
+            "stocks": stocks,
+            "dividend_yield": dividend_yield,
+            "forward_pe": forward_pe,
+            "ma200": ma200,
+            "ma50": ma50,
+        },
+    )
 
 
 @app.post("/stock")
