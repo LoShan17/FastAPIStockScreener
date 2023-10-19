@@ -6,6 +6,7 @@ import models
 from database import engine, SessionLocal
 from pydantic import BaseModel
 from models import Stock
+import logging
 
 templates = Jinja2Templates(directory="templates")
 models.Base.metadata.create_all(bind=engine)
@@ -71,10 +72,12 @@ def create_stock(
     """
     stock = Stock()
     stock.symbol = stock_request.symbol
+    logging.info(msg="adding stock {stock} to the database")
     db.add(stock)
     db.commit()
 
     # here the stock sqlalchemy model gets autopoulated during insertion for "id"
+    logging.info(msg="sending background task to fetch stock data {stock}")
     background_tasks.add_task(fetch_stock_data, stock.id)
 
     return {"code": "success", "message": "stock created"}
